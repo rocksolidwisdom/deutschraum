@@ -1,0 +1,2620 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deutschraum — Your German World</title>
+
+<style>
+:root {
+  --bg: #111210;
+  --panel: #1b1c18;
+  --panel2: #24251f;
+  --gold: #d8b878;
+  --text: #eeeae0;
+  --muted: #aaa99f;
+  --border: #36362e;
+  --green: #a9c5a0;
+  --red: #e5a19a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.65;
+}
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+
+.app {
+  min-height: 100vh;
+  display: flex;
+}
+.sidebar {
+  width: 245px;
+  flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 28px 17px;
+  border-right: 1px solid var(--border);
+  background: #151612;
+  display: flex;
+  flex-direction: column;
+}
+.brand {
+  color: var(--gold);
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: 2px;
+  padding: 0 12px;
+}
+.brand small {
+  display: block;
+  font-size: .65rem;
+  font-weight: 400;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+.side-label {
+  margin: 40px 12px 12px;
+  color: var(--muted);
+  font-size: .68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+  padding: 12px;
+  border-radius: 9px;
+  margin: 3px 0;
+  transition: .15s;
+}
+.nav-button:hover {
+  background: var(--panel2);
+  color: var(--text);
+}
+.nav-button.active {
+  color: var(--gold);
+  background: #30291e;
+  border-color: #4a3e29;
+}
+.nav-icon {
+  display: inline-flex;
+  justify-content: center;
+  width: 22px;
+  font-size: 1.05rem;
+}
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 14px 12px;
+  color: var(--muted);
+  font-size: .8rem;
+  border-top: 1px solid var(--border);
+}
+.main {
+  min-width: 0;
+  flex: 1;
+}
+.topbar {
+  height: 66px;
+  padding: 0 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-bottom: 1px solid var(--border);
+}
+.topbar-title { font-size: .95rem; }
+.level-pill {
+  border: 1px solid var(--border);
+  color: var(--gold);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: .8rem;
+}
+.content {
+  max-width: 1100px;
+  padding: 35px;
+  margin: 0 auto;
+}
+.view { display: none; }
+.view.active { display: block; }
+.eyebrow {
+  color: var(--gold);
+  font-size: .72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  line-height: 1.25;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); margin: 10px 0; }
+h2 { font-size: 1.8rem; margin: 0; }
+h3 { font-size: 1.5rem; }
+.intro { color: var(--muted); max-width: 650px; margin-bottom: 30px; }
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+}
+.controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+select, input {
+  background: var(--panel2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 11px 13px;
+  min-width: 0;
+}
+select:focus, input:focus { outline: 1px solid var(--gold); }
+.btn {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 9px;
+  padding: 10px 14px;
+}
+.btn:hover { border-color: var(--gold); }
+.btn.primary {
+  background: var(--gold);
+  color: #171610;
+  border-color: var(--gold);
+  font-weight: 600;
+}
+.story-title { color: var(--gold); margin: 0 0 5px; }
+.story-meta { color: var(--muted); font-size: .85rem; margin-bottom: 22px; }
+.story-text { font-size: 1.1rem; line-height: 2.05; }
+.story-text p { border-radius: 6px; transition: background .15s; }
+.word {
+  display: inline;
+  padding: 0 1px;
+  border: 0;
+  border-bottom: 1px dotted #92815e;
+  border-radius: 0;
+  color: var(--text);
+  background: transparent;
+}
+.word:hover, .word:focus { color: var(--gold); background: #353025; }
+.translation {
+  margin-top: 22px;
+  padding: 13px 15px;
+  min-height: 55px;
+  background: var(--panel2);
+  border-left: 3px solid var(--gold);
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+.translation strong { color: var(--gold); }
+.story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.story-actions button {
+  padding: 10px 18px;
+  border: 1px solid #c9a45c;
+  border-radius: 8px;
+  background: #252525;
+  color: #e5c47b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.story-actions button:hover {
+  background: #c9a45c;
+  color: #171717;
+  transform: translateY(-2px);
+}
+
+.story-actions button:active {
+  transform: scale(0.97);
+}
+.progress-track { height: 5px; background: #303029; border-radius: 20px; overflow: hidden; margin-top: 22px; }
+.progress-bar { height: 100%; width: 0; background: var(--gold); transition: width .2s; }
+.muted { color: var(--muted); }
+.vocab-list { display: grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap: 12px; margin-top: 20px; }
+.vocab-item { border: 1px solid var(--border); background: var(--panel2); border-radius: 10px; padding: 13px; overflow-wrap: anywhere; }
+.vocab-item strong { display: block; color: var(--gold); }
+.vocab-item small { color: var(--muted); }
+.vocab-item button { float: right; border: 0; background: transparent; color: var(--red); }
+.empty { color: var(--muted); }
+.stat-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+.stat-card { background: var(--panel2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+.stat-number { font-size: 2rem; color: var(--gold); font-family: Georgia,serif; }
+.stat-label { color: var(--muted); font-size: .85rem; }
+.chat-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.chat-top h3 { margin: 0; }
+.chat-log {
+  height: 350px;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #141511;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.chat-message {
+  max-width: 88%;
+  padding: 12px 15px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.chat-message.tutor { align-self: flex-start; background: #292a23; border: 1px solid #3a3a30; }
+.chat-message.you { align-self: flex-end; background: #453b28; border: 1px solid #6c5936; }
+.chat-form { display: flex; gap: 10px; margin-top: 14px; }
+.chat-form input { flex: 1; width: 100%; }
+.chat-status { color: var(--muted); font-size: .82rem; overflow-wrap: anywhere; }
+.chat-status.error { color: var(--red); }
+.chat-status.success { color: var(--green); }
+.chat-help { color: var(--muted); font-size: .84rem; }
+footer { color: var(--muted); font-size: .8rem; padding: 25px 35px; border-top: 1px solid var(--border); }
+
+@media (max-width: 760px) {
+  .app { display: block; }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 12px;
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { font-size: 1.05rem; padding: 0 7px 10px; }
+  .brand small { font-size: .57rem; }
+  .side-label, .sidebar-bottom { display: none; }
+  .sidebar nav { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 4px; }
+  .nav-button { display: flex; flex-direction: column; justify-content: center; gap: 3px; padding: 9px 3px; margin: 0; text-align: center; font-size: .76rem; }
+  .nav-icon { width: auto; font-size: 1rem; }
+  .topbar { height: 48px; padding: 0 16px; }
+  .content { padding: 25px 14px 40px; }
+  .panel { padding: 17px; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .chat-log { height: 320px; }
+  .chat-form { flex-wrap: wrap; }
+  .chat-form input { flex-basis: 100%; }
+  .chat-message { max-width: 95%; }
+  footer { padding: 20px; }
+}
+
+
+/* Dynamic sidebar */
+.sidebar {
+  transition: width .25s ease, transform .25s ease;
+  position: sticky;
+  overflow: visible;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: -17px;
+  z-index: 20;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.sidebar.collapsed {
+  width: 76px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.sidebar.collapsed .brand {
+  font-size: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.sidebar.collapsed .brand::before {
+  content: "D";
+  font-size: 25px;
+}
+
+.sidebar.collapsed .brand small,
+.sidebar.collapsed .side-label,
+.sidebar.collapsed .sidebar-bottom {
+  display: none;
+}
+
+.sidebar.collapsed .nav-button {
+  justify-content: center;
+  padding: 12px 5px;
+  gap: 0;
+}
+
+.sidebar.collapsed .nav-button span:not(.nav-icon) {
+  display: none;
+}
+
+.sidebar.collapsed .nav-icon {
+  font-size: 20px;
+}
+
+@media (max-width: 760px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    width: 245px;
+    height: 100dvh;
+    overflow-y: auto;
+    transform: translateX(0);
+    padding: 28px 17px;
+    border-right: 1px solid var(--border);
+    border-bottom: 0;
+  }
+
+  .sidebar.collapsed {
+    width: 245px;
+    transform: translateX(-100%);
+    padding: 28px 17px;
+  }
+
+  .sidebar.collapsed .brand {
+    font-size: 1.05rem;
+    text-align: left;
+    padding: 0 7px 10px;
+  }
+
+  .sidebar.collapsed .brand::before {
+    content: none;
+  }
+
+  .sidebar.collapsed .brand small,
+  .sidebar.collapsed .side-label {
+    display: block;
+  }
+
+  .sidebar.collapsed .sidebar-bottom {
+    display: block;
+  }
+
+  .sidebar.collapsed .nav-button {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 13px;
+    padding: 12px;
+  }
+
+  .sidebar.collapsed .nav-button span:not(.nav-icon) {
+    display: inline;
+  }
+
+  .sidebar.collapsed .nav-icon {
+    font-size: 1.05rem;
+    width: 22px;
+  }
+
+  .sidebar-toggle {
+    top: 18px;
+    right: -17px;
+  }
+
+  .sidebar.collapsed .sidebar-toggle {
+    position: fixed;
+    left: 12px;
+    top: 12px;
+    right: auto;
+    transform: translateX(calc(100vw - 65px));
+  }
+
+  .main {
+    width: 100%;
+  }
+
+  body.sidebar-open::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(0,0,0,.55);
+  }
+}
+
+
+/* Fix collapsed sidebar logo alignment */
+.sidebar.collapsed .brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.sidebar.collapsed .brand::before {
+  content: "D";
+  display: block;
+  font-size: 25px;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar.collapsed .brand small {
+  display: none;
+}
+
+
+/* Grammar Training Room */
+.grammar-panel {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 28px;
+  color: #eee9df;
+}
+
+.grammar-panel[hidden] {
+  display: none !important;
+}
+
+.grammar-header .eyebrow {
+  color: #a6c5a7;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+.grammar-header h1 {
+  margin: 8px 0;
+  font-size: clamp(27px, 4vw, 38px);
+}
+
+.grammar-header p {
+  color: #aaa99f;
+}
+
+.grammar-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 28px 0 20px;
+}
+
+.grammar-level,
+.grammar-secondary,
+.grammar-reset {
+  border: 1px solid #41473f;
+  background: #20251f;
+  color: #e8e6dc;
+  padding: 11px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.grammar-level.active {
+  background: #dce9d7;
+  color: #173622;
+  border-color: #dce9d7;
+}
+
+.grammar-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.grammar-stat {
+  padding: 16px;
+  border: 1px solid #353a33;
+  background: #191c18;
+  border-radius: 12px;
+}
+
+.grammar-stat span {
+  display: block;
+  color: #aaa99f;
+  font-size: 12px;
+}
+
+.grammar-stat strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 25px;
+}
+
+.grammar-card {
+  padding: clamp(18px, 4vw, 30px);
+  border: 1px solid #3d4339;
+  background: #191c18;
+  border-radius: 16px;
+}
+
+.grammar-question-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  color: #a6c5a7;
+  font-size: 13px;
+}
+
+.grammar-card h2 {
+  margin: 25px 0 8px;
+  font-size: clamp(20px, 3vw, 27px);
+}
+
+#grammarInstruction {
+  color: #aaa99f;
+}
+
+.grammar-options {
+  display: grid;
+  gap: 10px;
+  margin: 22px 0;
+}
+
+.grammar-option {
+  width: 100%;
+  padding: 14px 16px;
+  text-align: left;
+  color: #eee9df;
+  background: #222720;
+  border: 1px solid #42483f;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.grammar-option.selected {
+  border-color: #a6c5a7;
+  background: #29362a;
+}
+
+.grammar-option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.grammar-option.correct {
+  border-color: #76b987;
+  background: #203a29;
+}
+
+.grammar-option.incorrect {
+  border-color: #c98276;
+  background: #402823;
+}
+
+.grammar-feedback {
+  margin: 16px 0;
+  padding: 15px;
+  border-radius: 10px;
+  line-height: 1.6;
+  background: #252a23;
+}
+
+.grammar-feedback[hidden] {
+  display: none !important;
+}
+
+.grammar-feedback.good {
+  border-left: 3px solid #76b987;
+}
+
+.grammar-feedback.bad {
+  border-left: 3px solid #c98276;
+}
+
+.grammar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.grammar-primary {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 10px;
+  background: #dce9d7;
+  color: #173622;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.grammar-primary:disabled {
+  opacity: .5;
+  cursor: default;
+}
+
+.grammar-reset {
+  margin-top: 18px;
+  font-size: 12px;
+}
+
+@media (max-width: 520px) {
+  .grammar-panel {
+    padding: 18px 12px;
+  }
+
+  .grammar-stats {
+    gap: 7px;
+  }
+
+  .grammar-stat {
+    padding: 12px 9px;
+  }
+
+  .grammar-stat span {
+    font-size: 11px;
+  }
+
+  .grammar-stat strong {
+    font-size: 21px;
+  }
+}
+
+
+/* ===== AI Content Generator ===== */
+
+#view-generator .generator-controls {
+  background: #242424;
+  border: 1px solid #45413a;
+  border-radius: 16px;
+  padding: 22px;
+  margin: 22px 0;
+}
+
+#view-generator .generator-controls label {
+  display: block;
+  margin: 14px 0 7px;
+  color: #d8c49a;
+  font-weight: 600;
+}
+
+#view-generator .generator-controls input,
+#view-generator .generator-controls select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 9px;
+  border: 1px solid #514b40;
+  background: #191919;
+  color: #f5f0e6;
+  font: inherit;
+}
+
+#gen-create-btn,
+#gen-preview button {
+  background: #d8b66a;
+  color: #1c1a16;
+  border: none;
+  border-radius: 9px;
+  padding: 11px 16px;
+  margin-top: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#gen-create-btn:hover,
+#gen-preview button:hover {
+  filter: brightness(1.1);
+}
+
+#gen-create-btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Separate generated-content panel */
+#gen-preview {
+  margin-top: 26px;
+}
+
+.generated-story {
+  background: #292923;
+  color: #f4f0e6;
+  border: 1px solid #746343;
+  border-radius: 18px;
+  padding: 26px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  line-height: 1.9;
+}
+
+.generated-story h3 {
+  color: #e6c77e;
+  font-size: 1.6rem;
+  line-height: 1.4;
+  margin-top: 0;
+}
+
+.generated-story h4 {
+  color: #d8b66a;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.generated-story .story-german {
+  background: #20201c;
+  border-left: 3px solid #d8b66a;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 1.08rem;
+}
+
+.generated-story .story-translation,
+.generated-story .story-vocabulary {
+  background: #24241f;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.generated-story .story-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.generated-story .story-actions button {
+  margin-top: 0;
+}
+
+.generated-question {
+  background: #292923;
+  color: #f4f0e6;
+  border: 1px solid #514b40;
+  border-radius: 14px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.generated-question label {
+  display: inline-block;
+  padding: 5px 0;
+}
+
+.generated-question .gen-answer-result {
+  background: #20201c;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle"
+        type="button" aria-label="Collapse sidebar"
+        aria-expanded="true" title="Collapse sidebar">
+  ☰
+    </button>
+    <div class="brand">DEUTSCHRAUM<small>YOUR GERMAN WORLD</small></div>
+    <div class="side-label">Lernbereich</div>
+
+    <nav aria-label="Main navigation">
+      <button class="nav-button active" data-view="lesen" aria-selected="true">
+        <span class="nav-icon">▤</span><span>Lesen</span>
+      </button>
+      <button class="nav-button" data-view="grammatik" aria-selected="false">
+        <span class="nav-icon">✍</span> <span>Grammatik</span>
+      </button>
+      <button class="nav-button" data-view="woerter" aria-selected="false">
+        <span class="nav-icon">✎</span><span>Wörter</span>
+      </button>
+      <button class="nav-button" data-view="sprechen" aria-selected="false">
+        <span class="nav-icon">◉</span><span>Sprechen</span>
+      </button>
+      <button class="nav-button" data-view="fortschritt" aria-selected="false">
+        <span class="nav-icon">▥</span><span>Fortschritt</span>
+      </button>
+      <button class="nav-button" data-view="generator" aria-selected="false">
+        <span class="nav-icon">✦</span><span>Generator</span>
+      </button> 
+      <button class="nav-button" data-view="saved" aria-selected="false">
+  <span class="nav-icon">⭐</span><span>Saved Library</span>
+</button>
+    </nav>
+
+
+    <div class="sidebar-bottom">
+      Eine Sprache, eine neue Welt.<br>
+      <span id="sidebarSaved">0 Wörter gespeichert</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="topbar-title" id="pageTitle">Der Leseraum</div>
+      <div class="level-pill" id="headerLevel">A1 · A2 · B1</div>
+    </header>
+
+    <main class="content">
+      <!-- LESEN -->
+      <section class="view active" id="view-lesen">
+        <div class="eyebrow">Dein persönlicher Sprachraum</div>
+        <h1>Think in German.</h1>
+        <p class="intro">
+          Read German stories, discover new words and practise at your own pace.
+          Select a level and click any word to explore its meaning.
+        </p>
+
+        <div class="section-heading">
+          <h2>Der Leseraum</h2>
+          <span class="muted" id="storyCount">Story 1</span>
+        </div>
+
+        <div class="panel">
+          <div class="controls">
+            <select id="storyLevel" aria-label="Story level">
+              <option value="A1">A1 · Beginner</option>
+              <option value="A2">A2 · Elementary</option>
+              <option value="B1">B1 · Intermediate</option>
+            </select>
+            <select id="storySelect" aria-label="Choose a story"></select>
+          </div>
+
+          <h3 class="story-title" id="storyTitle"></h3>
+          <div class="story-meta" id="storyMeta"></div>
+          <div class="story-text" id="storyText"></div>
+
+          <div class="translation" id="wordTranslation" aria-live="polite">
+            <span class="muted">Click an underlined German word to see its meaning.</span>
+          </div>
+
+          <div class="story-actions">
+            <button class="btn" id="prevSentence" type="button">← Previous</button>
+            <button class="btn primary" id="playSentence" type="button">▶ Listen</button>
+            <button class="btn" id="nextSentence" type="button">Next →</button>
+          </div>
+
+          <div class="progress-track"><div class="progress-bar" id="readingProgress"></div></div>
+          <p class="muted" id="sentenceProgress">Sentence 1</p>
+        </div>
+      </section>
+
+      
+<!-- GRAMMATIK -->
+<section class="view" id="view-grammatik">
+  <div class="grammar-panel" id="grammarPanel">
+    <header class="grammar-header">
+      <div class="eyebrow">DEIN GRAMMATIKRAUM</div>
+      <h1>Grammatik trainieren.</h1>
+      <p>Practise German grammar, one question at a time.</p>
+    </header>
+
+    <div class="grammar-levels">
+      <button class="grammar-level active" data-level="A1" type="button">A1</button>
+      <button class="grammar-level" data-level="A2" type="button">A2</button>
+      <button class="grammar-level" data-level="B1" type="button">B1</button>
+    </div>
+
+    <div class="grammar-stats">
+      <div class="grammar-stat">
+        <span>Answered</span>
+        <strong id="grammarAnswered">0</strong>
+      </div>
+      <div class="grammar-stat">
+        <span>Correct</span>
+        <strong id="grammarCorrect">0</strong>
+      </div>
+      <div class="grammar-stat">
+        <span>Accuracy</span>
+        <strong id="grammarAccuracy">0%</strong>
+      </div>
+    </div>
+
+    <div class="grammar-card">
+      <div class="grammar-question-meta">
+        <span id="grammarTopic">Grammar</span>
+        <span id="grammarQuestionNumber">Question 1</span>
+      </div>
+
+      <h2 id="grammarQuestion"></h2>
+      <p id="grammarInstruction">Choose the correct answer.</p>
+
+      <div class="grammar-options" id="grammarOptions"></div>
+
+      <div class="grammar-feedback" id="grammarFeedback" hidden></div>
+
+      <div class="grammar-actions">
+        <button class="grammar-primary" id="grammarCheck" type="button" disabled>
+          Check answer
+        </button>
+        <button class="grammar-primary" id="grammarNext" type="button" hidden>
+          Next question →
+        </button>
+      </div>
+    </div>
+
+    <button class="grammar-reset" id="grammarReset" type="button">
+      Reset this level's score
+    </button>
+  </div>
+</section>
+
+
+      <!-- WÖRTER -->
+      <section class="view" id="view-woerter">
+        <div class="eyebrow">Dein persönliches Wörterbuch</div>
+        <h1>Wörter sammeln.</h1>
+        <p class="intro">Your saved vocabulary lives here. Review words, remove them, or export your list.</p>
+
+        <div class="section-heading">
+          <h2>Dein Wörterbuch</h2>
+          <span class="muted" id="vocabCount">0 words saved</span>
+        </div>
+
+        <div class="panel">
+          <p class="muted">Click a word in Lesen and choose “Save word” to add it here.</p>
+          <div id="vocabularyList" class="vocab-list"></div>
+          <div class="story-actions">
+            <button class="btn primary" id="exportVocabulary" type="button">Export vocabulary</button>
+            <button class="btn" id="clearVocabulary" type="button">Clear vocabulary</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SPRECHEN -->
+      <section class="view" id="view-sprechen">
+        <div class="eyebrow">Übung macht den Meister</div>
+        <h1>Sprich Deutsch.</h1>
+        <p class="intro">Practise with your AI tutor. Choose your level and the kind of practice you want.</p>
+
+        <div class="panel chat-panel">
+          <div class="chat-top">
+            <h3>Dein KI-Sprachpartner</h3>
+            <span class="eyebrow">Dein Tutor</span>
+          </div>
+
+          <div class="controls">
+            <select id="chatLevel" aria-label="German level">
+              <option value="A1">A1 · Beginner</option>
+              <option value="A2" selected>A2 · Elementary</option>
+              <option value="B1">B1 · Intermediate</option>
+            </select>
+            <select id="chatMode" aria-label="Practice mode">
+              <option value="conversation">Conversation</option>
+              <option value="correction">Correct my German</option>
+              <option value="roleplay">Roleplay</option>
+            </select>
+          </div>
+
+          <div id="chatLog" class="chat-log" aria-live="polite">
+            <div class="chat-message tutor">Hallo! Schön, dass du da bist. Wie war dein Tag? 😊</div>
+          </div>
+
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" type="text" placeholder="Schreib etwas auf Deutsch..." autocomplete="off" maxlength="2000" required>
+            <button class="btn primary chat-send" type="submit">Send ↗</button>
+          </form>
+
+          <p id="chatStatus" class="chat-status">AI tutor ready to connect.</p>
+          <p class="chat-help">
+            Conversation: practise naturally. Correction: get grammar feedback.
+            Roleplay: practise real-life situations.
+          </p>
+        </div>
+      </section>
+
+      <!-- FORTSCHRITT -->
+      <section class="view" id="view-fortschritt">
+        <div class="eyebrow">Deine Lernreise</div>
+        <h1>Schritt für Schritt.</h1>
+        <p class="intro">A small overview of your reading and vocabulary activity on this device.</p>
+
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="statStories">0</div>
+            <div class="stat-label">Stories opened</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statWords">0</div>
+            <div class="stat-label">Words saved</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statSentences">0</div>
+            <div class="stat-label">Sentences explored</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <h3>Weiter so!</h3>
+          <p class="muted">Read a story, save useful words, and practise speaking regularly. Your vocabulary count updates automatically.</p>
+          <button class="btn primary" id="goRead" type="button">Continue reading →</button>
+        </div>
+      </section>
+      
+<section class="view" id="view-generator">
+  <h2>Content Generator</h2>
+  <p>Generate new German stories and grammar practice with AI.</p>
+
+  <div class="generator-controls">
+    <label for="gen-type">Content type</label>
+    <select id="gen-type">
+      <option value="story">German Story</option>
+      <option value="grammar">Grammar Questions</option>
+    </select>
+
+    <label for="gen-level">German level</label>
+    <select id="gen-level">
+      <option value="A1">A1 — Beginner</option>
+      <option value="A2">A2 — Elementary</option>
+      <option value="B1">B1 — Intermediate</option>
+    </select>
+
+    <label for="gen-topic">Topic</label>
+    <input
+      id="gen-topic"
+      type="text"
+      placeholder="e.g. travelling, university, daily life"
+    />
+
+    <button id="gen-create-btn">✦ Generate Content</button>
+    <p id="gen-status"></p>
+  </div>
+
+  <div id="gen-preview"></div>
+</section>
+
+<!-- SAVED LIBRARY -->
+<section class="view" id="view-saved">
+  <div class="eyebrow">DEINE SAMMLUNG</div>
+  <h1>Saved Library.</h1>
+  <p class="intro">Revisit your German stories and practise your saved grammar questions.</p>
+
+  <div class="controls">
+    <select id="saved-filter" aria-label="Filter saved content">
+      <option value="all">Everything</option>
+      <option value="story">German Stories</option>
+      <option value="grammar">Grammar Exercises</option>
+    </select>
+  </div>
+
+  <div id="saved-stories-list"></div>
+</section>
+
+    </main>
+
+
+    <footer>DEUTSCHRAUM · Eine Sprache, eine neue Welt.</footer>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+// -----------------------------------------------
+// STORIES
+// Add more stories inside the appropriate level.
+// -----------------------------------------------
+
+const stories = {
+  A1: [
+    {
+      title: "Ein ruhiger Morgen",
+      topic: "Alltag · A1",
+      sentences: [
+        "Anna steht um sieben Uhr auf.",
+        "Sie geht in die Küche und macht Frühstück.",
+        "Sie isst Brot und trinkt einen Kaffee.",
+        "Danach liest sie ein Buch.",
+        "Um acht Uhr geht Anna zur Arbeit."
+      ]
+    },
+    {
+      title: "Im Café",
+      topic: "Essen und Trinken · A1",
+      sentences: [
+        "Paul geht heute in ein Café.",
+        "Er möchte einen Tee und ein Stück Kuchen.",
+        "Die Kellnerin bringt seine Bestellung.",
+        "Paul sitzt am Fenster und liest die Zeitung.",
+        "Nach einer Stunde geht er nach Hause."
+      ]
+    }
+  ],
+
+  A2: [
+    {
+      title: "Ein Wochenende in Berlin",
+      topic: "Reisen · A2",
+      sentences: [
+        "Letztes Wochenende ist Lena mit dem Zug nach Berlin gefahren.",
+        "Obwohl das Wetter nicht besonders gut war, hatte sie viel Spaß.",
+        "Zuerst besuchte sie ein kleines Museum in der Innenstadt.",
+        "Danach traf sie einen Freund, den sie seit zwei Jahren nicht gesehen hatte.",
+        "Am Abend gingen sie zusammen in ein Restaurant und unterhielten sich über ihre Pläne."
+      ]
+    },
+    {
+      title: "Eine neue Gewohnheit",
+      topic: "Alltag · A2",
+      sentences: [
+        "Seit einem Monat steht Jonas jeden Morgen früher auf.",
+        "Am Anfang fiel es ihm schwer, weil er abends gern lange wach blieb.",
+        "Jetzt geht er morgens spazieren, bevor er mit der Arbeit beginnt.",
+        "Er sagt, dass er sich dadurch tagsüber konzentrierter fühlt.",
+        "Am Wochenende schläft er trotzdem etwas länger."
+      ]
+    }
+  ],
+
+  B1: [
+    {
+      title: "Eine unerwartete Entscheidung",
+      topic: "Persönliche Entwicklung · B1",
+      sentences: [
+        "Als Miriam vor einem Jahr die Möglichkeit bekam, im Ausland zu studieren, war sie zunächst unsicher.",
+        "Einerseits wollte sie ihre Familie nicht verlassen, andererseits hatte sie schon lange davon geträumt, neue Kulturen kennenzulernen.",
+        "Nachdem sie mehrere Gespräche mit Freunden geführt hatte, beschloss sie, die Herausforderung anzunehmen.",
+        "Obwohl die ersten Wochen schwieriger waren als erwartet, gewöhnte sie sich langsam an ihren neuen Alltag.",
+        "Heute ist sie froh, dass sie sich damals für diesen Schritt entschieden hat."
+      ]
+    },
+    {
+      title: "Weniger Zeit am Handy",
+      topic: "Technologie · B1",
+      sentences: [
+        "Viele Menschen bemerken erst spät, wie häufig sie ihr Smartphone im Alltag benutzen.",
+        "Nachdem David festgestellt hatte, dass er täglich mehrere Stunden in sozialen Netzwerken verbrachte, wollte er etwas verändern.",
+        "Er beschloss, Benachrichtigungen auszuschalten und sein Handy während des Lernens in einem anderen Zimmer zu lassen.",
+        "Anfangs fiel ihm diese Veränderung schwer, doch nach einigen Wochen konnte er sich besser konzentrieren.",
+        "Er ist überzeugt, dass kleine Gewohnheiten langfristig einen großen Unterschied machen können."
+      ]
+    }
+  ]
+};
+
+// Starter dictionary. Unknown words can also be saved.
+const dictionary = {
+  "der":"the (masculine article)","die":"the (feminine article / plural)",
+  "das":"the (neuter article)","ein":"a / an","eine":"a / an",
+  "und":"and","oder":"or","aber":"but","weil":"because",
+  "obwohl":"although","wenn":"if / when","dass":"that",
+  "als":"when (past)","nachdem":"after","bevor":"before",
+  "ich":"I","du":"you","er":"he","sie":"she / they",
+  "wir":"we","mit":"with","für":"for","von":"from / of",
+  "in":"in / into","im":"in the","am":"on the / at the",
+  "um":"at (a time)","zur":"to the","zum":"to the",
+  "heute":"today","gestern":"yesterday","morgen":"tomorrow / morning",
+  "steht":"stands / gets up","auf":"up / on","aufstehen":"to get up",
+  "geht":"goes","gehen":"to go","gefahren":"travelled",
+  "essen":"to eat","isst":"eats","trinken":"to drink",
+  "liest":"reads","buch":"book","kaffee":"coffee","brot":"bread",
+  "freund":"friend","freundin":"female friend","arbeit":"work",
+  "hause":"home","spaß":"fun","wetter":"weather","zuerst":"first",
+  "danach":"afterwards","zusammen":"together","schwer":"difficult",
+  "schwieriger":"more difficult","langsam":"slowly","früher":"earlier",
+  "später":"later","entschieden":"decided","entscheidung":"decision",
+  "unsicher":"uncertain","träumen":"to dream","verändern":"to change",
+  "gewohnheit":"habit","konzentrieren":"to concentrate",
+  "konzentrierter":"more focused","langfristig":"long-term",
+  "möglichkeiten":"possibilities","möglichkeit":"possibility",
+  "ausland":"abroad","familie":"family","kulturen":"cultures",
+  "herausforderung":"challenge","angenommen":"accepted / taken on",
+  "anfangs":"at first","erwartet":"expected","alltag":"everyday life",
+  "mehrere":"several","gespräche":"conversations","beschloss":"decided",
+  "schritt":"step","froh":"glad","häufig":"frequently",
+  "benutzen":"to use","benutzt":"uses","festgestellt":"noticed",
+  "täglich":"daily","verbrachte":"spent","soziale":"social",
+  "netzwerken":"networks","ausschalten":"to switch off",
+  "benachrichtigungen":"notifications","fiel":"was difficult",
+  "unterschied":"difference","können":"can / to be able to",
+  "konnte":"could","jetzt":"now","doch":"however / yet",
+  "trotzdem":"nevertheless","nicht":"not","viel":"much / a lot",
+  "viele":"many","gut":"good / well","besser":"better",
+  "lange":"long","gern":"gladly / like to","schon":"already",
+  "noch":"still / yet","immer":"always","oft":"often",
+  "manchmal":"sometimes","während":"while / during",
+  "deshalb":"therefore","dadurch":"as a result","damals":"back then",
+  "neuen":"new","neue":"new","sich":"oneself","fühlt":"feels",
+  "hatte":"had","hat":"has","war":"was","waren":"were",
+  "ist":"is","sind":"are","wollte":"wanted","möchte":"would like",
+  "bekam":"received / got","bekommen":"to receive",
+  "verlassen":"to leave","bleiben":"to stay","blieb":"stayed",
+  "einerseits":"on the one hand","andererseits":"on the other hand",
+  "fenster":"window","bestellung":"order","kellnerin":"waitress",
+  "restaurant":"restaurant","museum":"museum","innenstadt":"city centre",
+  "wochenende":"weekend","letztes":"last","monat":"month",
+  "jahr":"year","jahre":"years","seit":"since / for",
+  "pläne":"plans","planen":"to plan","erfahrung":"experience",
+  "meinung":"opinion","beeinflusst":"influenced","wichtig":"important",
+  "müde":"tired","glücklich":"happy","neugierig":"curious"
+};
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "deutschraum-vocabulary-v1";
+const STATS_KEY = "deutschraum-progress-v1";
+
+let vocabulary = loadJSON(STORAGE_KEY, []);
+let progress = loadJSON(STATS_KEY, {
+  openedStories: [],
+  exploredSentences: []
+});
+
+let currentSentence = 0;
+
+function loadJSON(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key) || "null");
+    return value === null ? fallback : value;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveJSON(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn("Could not save data:", error);
+  }
+}
+
+// -----------------------------------------------
+// SIDEBAR NAVIGATION
+// -----------------------------------------------
+
+const pageNames = {
+  lesen: "Lesen",
+  grammatik: "Grammatik-Training",
+  woerter: "Wörter",
+  sprechen: "Sprechen",
+  fortschritt: "Fortschritt" ,
+  generator: "Content Generator" ,
+  saved: "Saved Library",
+};
+
+function showView(name) {
+  document.querySelectorAll(".view").forEach(view => {
+    view.classList.toggle("active", view.id === "view-" + name);
+  });
+
+  document.querySelectorAll(".nav-button").forEach(button => {
+    const selected = button.dataset.view === name;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-selected", String(selected));
+  });
+
+  $("pageTitle").textContent = pageNames[name] || "Deutschraum";
+
+  if (name === "woerter") renderVocabulary();
+  if (name === "fortschritt") renderProgress();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.querySelectorAll(".nav-button").forEach(button => {
+  button.addEventListener("click", () => showView(button.dataset.view));
+});
+
+$("goRead").addEventListener("click", () => showView("lesen"));
+
+// -----------------------------------------------
+// STORY READER
+// -----------------------------------------------
+
+const storyLevel = $("storyLevel");
+const storySelect = $("storySelect");
+const storyText = $("storyText");
+
+function currentStory() {
+  return stories[storyLevel.value][Number(storySelect.value)] || stories.A1[0];
+}
+
+function storyKey() {
+  return storyLevel.value + "-" + storySelect.value;
+}
+
+function markStoryOpened() {
+  const key = storyKey();
+
+  if (!progress.openedStories.includes(key)) {
+    progress.openedStories.push(key);
+    saveJSON(STATS_KEY, progress);
+  }
+}
+
+function populateStories() {
+  storySelect.innerHTML = "";
+
+  stories[storyLevel.value].forEach((story, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = story.title;
+    storySelect.appendChild(option);
+  });
+
+  currentSentence = 0;
+  renderStory();
+}
+
+function renderStory() {
+  const story = currentStory();
+
+  $("storyTitle").textContent = story.title;
+  $("storyMeta").textContent =
+    story.topic + " · " + story.sentences.length + " sentences";
+
+  $("storyCount").textContent =
+    "Story " + (Number(storySelect.value) + 1) +
+    " of " + stories[storyLevel.value].length;
+
+  storyText.innerHTML = "";
+
+  story.sentences.forEach((sentence, index) => {
+    const paragraph = document.createElement("p");
+    paragraph.style.margin = "0 0 12px";
+    paragraph.dataset.sentenceIndex = String(index);
+
+    const parts = sentence.match(/\s+|[^\s]+/g) || [];
+
+    parts.forEach(part => {
+      if (/^\s+$/.test(part)) {
+        paragraph.appendChild(document.createTextNode(part));
+        return;
+      }
+
+      const wordButton = document.createElement("button");
+      wordButton.type = "button";
+      wordButton.className = "word";
+      wordButton.textContent = part;
+      wordButton.addEventListener("click", () => showWord(part));
+      paragraph.appendChild(wordButton);
+    });
+
+    storyText.appendChild(paragraph);
+  });
+
+  markStoryOpened();
+  updateSentenceProgress();
+
+  $("wordTranslation").innerHTML =
+    '<span class="muted">Click an underlined German word to see its meaning.</span>';
+}
+
+function updateSentenceProgress() {
+  const total = currentStory().sentences.length;
+  currentSentence = Math.max(0, Math.min(currentSentence, total - 1));
+
+  $("sentenceProgress").textContent =
+    "Sentence " + (currentSentence + 1) + " of " + total;
+
+  $("readingProgress").style.width =
+    ((currentSentence + 1) / total * 100) + "%";
+
+  storyText.querySelectorAll("p").forEach((p, index) => {
+    const selected = index === currentSentence;
+    p.style.opacity = selected ? "1" : ".55";
+    p.style.background = selected ? "#24241e" : "transparent";
+    p.style.padding = "0 5px";
+  });
+
+  $("prevSentence").disabled = currentSentence === 0;
+  $("nextSentence").disabled = currentSentence === total - 1;
+
+  const key = storyKey() + "-" + currentSentence;
+  if (!progress.exploredSentences.includes(key)) {
+    progress.exploredSentences.push(key);
+    saveJSON(STATS_KEY, progress);
+  }
+}
+
+function showWord(rawWord) {
+  const word = rawWord.replace(
+    /^[^\p{L}\p{N}ÄÖÜäöüß]+|[^\p{L}\p{N}ÄÖÜäöüß]+$/gu,
+    ""
+  );
+
+  const lower = word.toLocaleLowerCase("de");
+  const meaning = dictionary[lower] || "Meaning not in the starter dictionary yet.";
+  const exists = vocabulary.some(
+    item => item.word.toLocaleLowerCase("de") === lower
+  );
+
+  const box = $("wordTranslation");
+  box.innerHTML = "";
+
+  const heading = document.createElement("strong");
+  heading.textContent = word;
+
+  const meaningText = document.createElement("span");
+  meaningText.textContent = " — " + meaning;
+
+  const description = document.createElement("div");
+  description.append(heading, meaningText);
+  box.appendChild(description);
+
+  const actions = document.createElement("div");
+  actions.className = "story-actions";
+
+  const saveButton = document.createElement("button");
+  saveButton.type = "button";
+  saveButton.className = "btn primary";
+  saveButton.textContent = exists ? "Already saved ✓" : "＋ Save word";
+  saveButton.disabled = exists;
+
+  saveButton.addEventListener("click", () => {
+    if (!word || vocabulary.some(
+      item => item.word.toLocaleLowerCase("de") === lower
+    )) return;
+
+    vocabulary.push({
+      word,
+      meaning,
+      level: storyLevel.value,
+      date: new Date().toISOString()
+    });
+
+    saveJSON(STORAGE_KEY, vocabulary);
+    renderVocabulary();
+    renderProgress();
+    saveButton.textContent = "Saved ✓";
+    saveButton.disabled = true;
+  });
+
+  const speakButton = document.createElement("button");
+  speakButton.type = "button";
+  speakButton.className = "btn";
+  speakButton.textContent = "🔊 Hear word";
+  speakButton.addEventListener("click", () => speakGerman(word));
+
+  actions.append(saveButton, speakButton);
+  box.appendChild(actions);
+}
+
+function speakGerman(text) {
+  if (!("speechSynthesis" in window)) {
+    alert("Speech synthesis is not supported in this browser.");
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "de-DE";
+  utterance.rate = 0.85;
+  window.speechSynthesis.speak(utterance);
+}
+
+storyLevel.addEventListener("change", populateStories);
+
+storySelect.addEventListener("change", () => {
+  currentSentence = 0;
+  renderStory();
+});
+
+$("prevSentence").addEventListener("click", () => {
+  currentSentence--;
+  updateSentenceProgress();
+});
+
+$("nextSentence").addEventListener("click", () => {
+  currentSentence++;
+  updateSentenceProgress();
+});
+
+$("playSentence").addEventListener("click", () => {
+  speakGerman(currentStory().sentences[currentSentence]);
+});
+
+// -----------------------------------------------
+// VOCABULARY
+// -----------------------------------------------
+
+function renderVocabulary() {
+  const list = $("vocabularyList");
+  list.innerHTML = "";
+
+  $("vocabCount").textContent =
+    vocabulary.length + (vocabulary.length === 1 ? " word saved" : " words saved");
+
+  $("sidebarSaved").textContent = vocabulary.length + " Wörter gespeichert";
+
+  if (!vocabulary.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "No saved words yet. Open Lesen and click a word to get started.";
+    list.appendChild(empty);
+    return;
+  }
+
+  vocabulary.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "vocab-item";
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.textContent = "✕";
+    remove.title = "Remove word";
+    remove.addEventListener("click", () => {
+      vocabulary.splice(index, 1);
+      saveJSON(STORAGE_KEY, vocabulary);
+      renderVocabulary();
+      renderProgress();
+    });
+
+    const word = document.createElement("strong");
+    word.textContent = item.word;
+
+    const meaning = document.createElement("div");
+    meaning.textContent = item.meaning;
+
+    const level = document.createElement("small");
+    level.textContent = item.level || "";
+
+    card.append(remove, word, meaning, level);
+    list.appendChild(card);
+  });
+}
+
+$("clearVocabulary").addEventListener("click", () => {
+  if (!vocabulary.length) return;
+
+  if (confirm("Delete all saved vocabulary from this browser?")) {
+    vocabulary = [];
+    saveJSON(STORAGE_KEY, vocabulary);
+    renderVocabulary();
+    renderProgress();
+  }
+});
+
+$("exportVocabulary").addEventListener("click", () => {
+  if (!vocabulary.length) {
+    alert("Save some words first.");
+    return;
+  }
+
+  const content = vocabulary.map(item =>
+    `${item.word} — ${item.meaning} (${item.level || ""})`
+  ).join("\n");
+
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = "deutschraum-vocabulary.txt";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+
+// -----------------------------------------------
+// PROGRESS
+// -----------------------------------------------
+
+function renderProgress() {
+  $("statStories").textContent = progress.openedStories.length;
+  $("statWords").textContent = vocabulary.length;
+  $("statSentences").textContent = progress.exploredSentences.length;
+}
+
+// -----------------------------------------------
+// AI TUTOR
+// Keep this URL pointed at your working Worker.
+// -----------------------------------------------
+
+const API_URL = "https://bold-moon-1686.shreyan-k0222.workers.dev/";
+
+const chatForm = $("chatForm");
+const chatInput = $("chatInput");
+const chatLog = $("chatLog");
+const chatLevel = $("chatLevel");
+const chatMode = $("chatMode");
+const chatStatus = $("chatStatus");
+
+let conversation = [];
+const MAX_HISTORY_MESSAGES = 20;
+
+function addChatMessage(message, speaker) {
+  const bubble = document.createElement("div");
+  bubble.className = "chat-message " + speaker;
+  bubble.textContent = String(message);
+  chatLog.appendChild(bubble);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
+function setChatStatus(message, type = "") {
+  chatStatus.textContent = message;
+  chatStatus.className = "chat-status" + (type ? " " + type : "");
+}
+
+chatForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const message = chatInput.value.trim();
+  if (!message) return;
+
+  addChatMessage(message, "you");
+  conversation.push({ role: "user", content: message });
+
+  chatInput.value = "";
+  chatInput.disabled = true;
+
+  const sendButton = chatForm.querySelector("button");
+  sendButton.disabled = true;
+
+  setChatStatus("Dein Tutor denkt nach...");
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        level: chatLevel.value,
+        mode: chatMode.value,
+        messages: conversation.slice(-MAX_HISTORY_MESSAGES)
+      })
+    });
+
+    const responseText = await response.text();
+    let data;
+
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      throw new Error("Invalid response from your Cloudflare Worker.");
+    }
+
+    if (!response.ok) {
+      throw new Error(data.details || data.error || `HTTP ${response.status}`);
+    }
+
+    if (typeof data.reply !== "string" || !data.reply.trim()) {
+      throw new Error(data.details || data.error || "The tutor returned no reply.");
+    }
+
+    addChatMessage(data.reply, "tutor");
+    conversation.push({ role: "assistant", content: data.reply });
+    conversation = conversation.slice(-MAX_HISTORY_MESSAGES);
+
+    setChatStatus("Tutor connected ✓", "success");
+
+  } catch (error) {
+    console.error("AI tutor error:", error);
+
+    if (conversation.length && conversation[conversation.length - 1].role === "user") {
+      conversation.pop();
+    }
+
+    addChatMessage("Connection error: " + error.message, "tutor");
+    setChatStatus("AI connection failed. Check the error above.", "error");
+
+  } finally {
+    chatInput.disabled = false;
+    sendButton.disabled = false;
+    chatInput.focus();
+  }
+});
+
+// -----------------------------------------------
+// INITIALISE
+// -----------------------------------------------
+
+populateStories();
+renderVocabulary();
+renderProgress();
+
+
+const sidebar = document.querySelector(".sidebar");
+const sidebarToggle = document.getElementById("sidebarToggle");
+
+function updateSidebar(collapsed) {
+  sidebar.classList.toggle("collapsed", collapsed);
+
+  const isMobile = window.matchMedia("(max-width: 760px)").matches;
+  const expanded = isMobile ? !collapsed : !collapsed;
+
+  sidebarToggle.setAttribute("aria-expanded", String(expanded));
+  sidebarToggle.setAttribute(
+    "aria-label",
+    expanded ? "Collapse sidebar" : "Open sidebar"
+  );
+  sidebarToggle.title = expanded ? "Collapse sidebar" : "Open sidebar";
+
+  document.body.classList.toggle("sidebar-open", isMobile && expanded);
+}
+
+sidebarToggle.addEventListener("click", () => {
+  updateSidebar(!sidebar.classList.contains("collapsed"));
+});
+
+document.querySelectorAll(".nav-button").forEach(button => {
+  button.addEventListener("click", () => {
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      updateSidebar(true);
+    }
+  });
+});
+
+// Start expanded on desktop and closed on mobile.
+updateSidebar(window.matchMedia("(max-width: 760px)").matches);
+
+window.addEventListener("resize", () => {
+  updateSidebar(window.matchMedia("(max-width: 760px)").matches);
+});
+
+
+const grammarQuestions = {
+  A1: [
+    {
+      topic: "Verb conjugation",
+      question: "Ich ___ Deutsch.",
+      options: ["lerne", "lernst", "lernen", "lernt"],
+      answer: 0,
+      explanation: "'Ich' takes the verb ending -e: ich lerne."
+    },
+    {
+      topic: "Articles",
+      question: "___ Tisch ist groß.",
+      options: ["Die", "Der", "Das", "Den"],
+      answer: 1,
+      explanation: "'Tisch' is masculine: der Tisch."
+    },
+    {
+      topic: "Word order",
+      question: "Choose the correct sentence.",
+      options: [
+        "Ich jeden Tag lerne Deutsch.",
+        "Ich lerne Deutsch jeden Tag.",
+        "Ich lerne jeden Tag Deutsch.",
+        "Lerne ich jeden Tag Deutsch."
+      ],
+      answer: 2,
+      explanation: "A normal statement puts the conjugated verb in position two."
+    },
+    {
+      topic: "Accusative",
+      question: "Ich kaufe ___ Apfel.",
+      options: ["ein", "einen", "einem", "einer"],
+      answer: 1,
+      explanation: "'Apfel' is masculine. The masculine indefinite article becomes 'einen' in the accusative."
+    },
+    {
+      topic: "Modal verbs",
+      question: "Ich kann heute nicht ___.",
+      options: ["komme", "kommt", "kommen", "kam"],
+      answer: 2,
+      explanation: "After 'kann', the second verb goes to the end in its infinitive form: kommen."
+    },
+    {
+      topic: "Negation",
+      question: "Ich habe ___ Auto.",
+      options: ["nicht", "kein", "keine", "keinen"],
+      answer: 1,
+      explanation: "'Auto' is neuter, so the nominative/accusative form here is 'kein Auto'."
+    }
+  ],
+
+  A2: [
+    {
+      topic: "Dative",
+      question: "Ich helfe ___ Bruder.",
+      options: ["mein", "meinen", "meinem", "meiner"],
+      answer: 2,
+      explanation: "'Helfen' takes the dative. 'Der Bruder' becomes 'meinem Bruder'."
+    },
+    {
+      topic: "Two-way prepositions",
+      question: "Ich gehe ___ die Schule.",
+      options: ["in", "im", "ins", "bei"],
+      answer: 0,
+      explanation: "'In die Schule gehen' expresses movement toward a destination, so use accusative."
+    },
+    {
+      topic: "Perfect tense",
+      question: "Gestern ___ ich Fußball gespielt.",
+      options: ["bin", "habe", "werde", "hat"],
+      answer: 1,
+      explanation: "'Spielen' normally forms the Perfekt with haben: ich habe gespielt."
+    },
+    {
+      topic: "Subordinate clauses",
+      question: "Ich bleibe zu Hause, weil ich krank ___.",
+      options: ["bin", "ist", "habe", "sein"],
+      answer: 0,
+      explanation: "In a 'weil' clause, the conjugated verb goes to the end: weil ich krank bin."
+    },
+    {
+      topic: "Comparatives",
+      question: "Mein Zimmer ist ___ als dein Zimmer.",
+      options: ["klein", "kleiner", "am kleinsten", "kleine"],
+      answer: 1,
+      explanation: "Use the comparative with 'als': kleiner als."
+    },
+    {
+      topic: "Reflexive verbs",
+      question: "Ich interessiere ___ für Musik.",
+      options: ["mir", "mich", "mein", "dir"],
+      answer: 1,
+      explanation: "'Sich interessieren für' uses the accusative reflexive pronoun: mich."
+    }
+  ],
+
+  B1: [
+    {
+      topic: "Adjective endings",
+      question: "Ich wohne in einer ___ Wohnung.",
+      options: ["klein", "kleine", "kleinen", "kleiner"],
+      answer: 2,
+      explanation: "After 'in einer' here, the dative feminine adjective takes -en: in einer kleinen Wohnung."
+    },
+    {
+      topic: "Passive voice",
+      question: "Das Essen ___ jeden Tag frisch gekocht.",
+      options: ["wird", "wurde", "hat", "ist"],
+      answer: 0,
+      explanation: "The present passive uses werden + past participle: wird gekocht."
+    },
+    {
+      topic: "Konjunktiv II",
+      question: "Wenn ich mehr Zeit hätte, ___ ich mehr lesen.",
+      options: ["werde", "würde", "wurde", "bin"],
+      answer: 1,
+      explanation: "Use 'würde' + infinitive to express a hypothetical situation."
+    },
+    {
+      topic: "Relative clauses",
+      question: "Das ist der Mann, ___ neben mir wohnt.",
+      options: ["den", "dem", "der", "dessen"],
+      answer: 2,
+      explanation: "The relative pronoun is the subject of 'wohnt', so use nominative masculine: der."
+    },
+    {
+      topic: "Infinitive with zu",
+      question: "Ich habe vergessen, dich ___.",
+      options: ["anrufen", "anrufe", "anzurufen", "angerufen"],
+      answer: 2,
+      explanation: "With 'vergessen', use 'zu' + infinitive. Separable verbs place 'zu' between the prefix and verb: anzurufen."
+    },
+    {
+      topic: "Connectors",
+      question: "Es regnet. ___ gehe ich spazieren.",
+      options: ["Obwohl", "Trotzdem", "Weil", "Damit"],
+      answer: 1,
+      explanation: "'Trotzdem' means 'nevertheless'. It can introduce a main clause, with the verb in position two."
+    }
+  ]
+};
+
+const grammarPanel = document.getElementById("grammarPanel");
+
+if (grammarPanel) {
+  let grammarLevel = "A1";
+  let grammarIndex = 0;
+  let grammarSelection = null;
+  let grammarChecked = false;
+
+  const grammarProgressKey = "deutschraumGrammarProgress";
+  let grammarProgress = {};
+
+  try {
+    grammarProgress = JSON.parse(
+      localStorage.getItem(grammarProgressKey) || "{}"
+    );
+  } catch {
+    grammarProgress = {};
+  }
+
+  function grammarStats() {
+    return grammarProgress[grammarLevel] || {
+      answered: 0,
+      correct: 0
+    };
+  }
+
+  function saveGrammarProgress() {
+    localStorage.setItem(
+      grammarProgressKey,
+      JSON.stringify(grammarProgress)
+    );
+  }
+
+  function updateGrammarStats() {
+    const stats = grammarStats();
+
+    document.getElementById("grammarAnswered").textContent =
+      stats.answered;
+
+    document.getElementById("grammarCorrect").textContent =
+      stats.correct;
+
+    document.getElementById("grammarAccuracy").textContent =
+      stats.answered
+        ? Math.round(stats.correct / stats.answered * 100) + "%"
+        : "0%";
+  }
+
+  function renderGrammarQuestion() {
+    const questions = grammarQuestions[grammarLevel];
+
+    // Wrap around so the quiz can be practised repeatedly.
+    grammarIndex = grammarIndex % questions.length;
+
+    const q = questions[grammarIndex];
+
+    grammarSelection = null;
+    grammarChecked = false;
+
+    document.getElementById("grammarTopic").textContent = q.topic;
+    document.getElementById("grammarQuestionNumber").textContent =
+      `Question ${grammarIndex + 1} of ${questions.length}`;
+
+    document.getElementById("grammarQuestion").textContent = q.question;
+    document.getElementById("grammarInstruction").textContent =
+      "Choose the correct answer.";
+
+    const optionsBox = document.getElementById("grammarOptions");
+    optionsBox.replaceChildren();
+
+    q.options.forEach((option, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "grammar-option";
+      button.textContent = option;
+
+      button.addEventListener("click", () => {
+        if (grammarChecked) return;
+
+        grammarSelection = index;
+
+        optionsBox.querySelectorAll(".grammar-option").forEach(
+          (item, i) => item.classList.toggle("selected", i === index)
+        );
+
+        document.getElementById("grammarCheck").disabled = false;
+      });
+
+      optionsBox.appendChild(button);
+    });
+
+    const feedback = document.getElementById("grammarFeedback");
+    feedback.hidden = true;
+    feedback.textContent = "";
+    feedback.className = "grammar-feedback";
+
+    document.getElementById("grammarCheck").hidden = false;
+    document.getElementById("grammarCheck").disabled = true;
+    document.getElementById("grammarNext").hidden = true;
+
+    updateGrammarStats();
+  }
+
+  function checkGrammarAnswer() {
+    if (grammarSelection === null || grammarChecked) return;
+
+    grammarChecked = true;
+
+    const q = grammarQuestions[grammarLevel][grammarIndex];
+    const isCorrect = grammarSelection === q.answer;
+    const stats = grammarStats();
+
+    stats.answered++;
+    if (isCorrect) stats.correct++;
+
+    grammarProgress[grammarLevel] = stats;
+    saveGrammarProgress();
+
+    const options = document.querySelectorAll(
+      "#grammarOptions .grammar-option"
+    );
+
+    options.forEach((button, index) => {
+      button.disabled = true;
+
+      if (index === q.answer) {
+        button.classList.add("correct");
+      } else if (index === grammarSelection) {
+        button.classList.add("incorrect");
+      }
+    });
+
+    const feedback = document.getElementById("grammarFeedback");
+    feedback.hidden = false;
+    feedback.className =
+      "grammar-feedback " + (isCorrect ? "good" : "bad");
+
+    const heading = isCorrect ? "Richtig! ✓" : "Nicht ganz.";
+
+    feedback.replaceChildren();
+
+    const title = document.createElement("strong");
+    title.textContent = heading;
+
+    const explanation = document.createElement("p");
+    explanation.textContent = q.explanation;
+
+    feedback.append(title, explanation);
+
+    document.getElementById("grammarCheck").hidden = true;
+    document.getElementById("grammarNext").hidden = false;
+
+    updateGrammarStats();
+  }
+
+  function selectGrammarLevel(level) {
+    grammarLevel = level;
+    grammarIndex = 0;
+
+    document.querySelectorAll(".grammar-level").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.level === level
+      );
+    });
+
+    renderGrammarQuestion();
+  }
+
+  document.querySelectorAll(".grammar-level").forEach(button => {
+    button.addEventListener("click", () => {
+      selectGrammarLevel(button.dataset.level);
+    });
+  });
+
+  document.getElementById("grammarCheck").addEventListener(
+    "click",
+    checkGrammarAnswer
+  );
+
+  document.getElementById("grammarNext").addEventListener("click", () => {
+    grammarIndex++;
+    renderGrammarQuestion();
+  });
+
+  document.getElementById("grammarReset").addEventListener("click", () => {
+    if (!confirm("Reset your grammar scores for " + grammarLevel + "?")) {
+      return;
+    }
+
+    grammarProgress[grammarLevel] = {
+      answered: 0,
+      correct: 0
+    };
+
+    saveGrammarProgress();
+    grammarIndex = 0;
+    renderGrammarQuestion();
+  });
+
+  renderGrammarQuestion();
+
+  // Expose a small navigation function for the sidebar integration.
+  window.openGrammarRoom = function () {
+    grammarPanel.hidden = false;
+  };
+}
+
+
+const genCreateBtn = document.getElementById("gen-create-btn");
+
+genCreateBtn.addEventListener("click", async () => {
+  const type = document.getElementById("gen-type").value;
+  const level = document.getElementById("gen-level").value;
+  const topic =
+    document.getElementById("gen-topic").value.trim() ||
+    "everyday life";
+  const status = document.getElementById("gen-status");
+  const preview = document.getElementById("gen-preview");
+
+  genCreateBtn.disabled = true;
+  status.textContent = "Generating... please wait.";
+  preview.innerHTML = "";
+
+  try {
+    const response = await fetch(
+      "https://bold-moon-1686.shreyan-k0222.workers.dev/",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: type === "story"
+            ? "generate_story"
+            : "generate_grammar",
+          level,
+          topic
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Generation failed.");
+    }
+
+    const content = data.content;
+
+    
+if (type === "story") {
+  preview.innerHTML = `
+    <article class="generated-story">
+      <h3>${escapeHTML(content.title)}</h3>
+      <p><strong>Level:</strong> ${escapeHTML(content.level)}</p>
+
+      <h4>🇩🇪 German Story</h4>
+      <div class="story-german">${escapeHTML(content.text)}</div>
+
+      <h4>🇬🇧 English Translation</h4>
+      <div class="story-translation" id="gen-translation">
+        ${escapeHTML(content.translation)}
+      </div>
+
+      <h4>📚 Vocabulary</h4>
+      <div class="story-vocabulary" id="gen-vocabulary"></div>
+
+      <div class="story-actions">
+        <button id="gen-copy-btn">📋 Copy German</button>
+        <button id="gen-save-btn">⭐ Save Story</button>
+        <button id="gen-translation-btn">🙈 Hide Translation</button>
+        <button id="gen-again-btn">🔄 Generate Another</button>
+      </div>
+    </article>
+  `;
+
+  
+
+const saveBtn = document.getElementById("gen-save-btn");
+
+saveBtn.addEventListener("click", () => {
+  const key = "deutschraumSavedLibrary";
+  const library = loadJSON(key, []);
+
+  const item = {
+    id: crypto.randomUUID(),
+    kind: "story",
+    title: content.title,
+    level: content.level,
+    text: content.text,
+    translation: content.translation,
+    vocabulary: content.vocabulary || [],
+    topic,
+    savedAt: new Date().toISOString()
+  };
+
+  const duplicate = library.some(
+    entry => entry.kind === "story" &&
+      entry.text === item.text
+  );
+
+  if (duplicate) {
+    status.textContent = "This story is already saved!";
+    return;
+  }
+
+  library.push(item);
+  saveJSON(key, library);
+
+  // Keep the older saved-story collection compatible.
+  const oldStories = loadJSON("deutschraumSavedStories", []);
+  if (!oldStories.some(story => story.text === item.text)) {
+    oldStories.push(item);
+    saveJSON("deutschraumSavedStories", oldStories);
+  }
+
+  saveBtn.textContent = "✓ Saved!";
+  status.textContent = "Story saved to your library!";
+});
+
+
+saveBtn.addEventListener("click", () => {
+  let savedStories = JSON.parse(
+    localStorage.getItem("deutschraumSavedStories") || "[]"
+  );
+
+  const story = {
+    title: content.title,
+    level: content.level,
+    text: content.text,
+    translation: content.translation,
+    vocabulary: content.vocabulary,
+    topic: topic,
+    savedAt: new Date().toISOString()
+  };
+
+  const alreadySaved = savedStories.some(
+    item => item.title === story.title && item.text === story.text
+  );
+
+  if (alreadySaved) {
+    status.textContent = "This story is already saved!";
+    return;
+  }
+
+  savedStories.push(story);
+  localStorage.setItem(
+    "deutschraumSavedStories",
+    JSON.stringify(savedStories)
+  );
+
+  saveBtn.textContent = "✓ Saved!";
+});
+
+
+  const vocab = document.getElementById("gen-vocabulary");
+
+  content.vocabulary.forEach(item => {
+    const card = document.createElement("p");
+    card.innerHTML =
+      `<strong>${escapeHTML(item.word)}</strong> — ` +
+      `${escapeHTML(item.meaning)}<br>` +
+      `${escapeHTML(item.example)}`;
+    vocab.appendChild(card);
+  });
+
+  const translation = document.getElementById("gen-translation");
+  const translationBtn = document.getElementById("gen-translation-btn");
+
+  translationBtn.addEventListener("click", () => {
+    const hidden = translation.style.display === "none";
+    translation.style.display = hidden ? "block" : "none";
+    translationBtn.textContent = hidden
+      ? "🙈 Hide Translation"
+      : "👁 Show Translation";
+  });
+
+  document.getElementById("gen-copy-btn").addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(content.text);
+      document.getElementById("gen-copy-btn").textContent = "✓ Copied!";
+    } catch {
+      status.textContent = "Copy failed. Try selecting the German text manually.";
+    }
+  });
+
+  document.getElementById("gen-again-btn").addEventListener("click", () => {
+    genCreateBtn.click();
+  });
+} 
+ else {
+      preview.innerHTML =
+        `<h3>${escapeHTML(content.topic || topic)}</h3>` +
+        `<p><strong>Level:</strong> ${escapeHTML(content.level)}</p>`;
+
+        
+const saveGrammarBtn = document.createElement("button");
+saveGrammarBtn.textContent = "⭐ Save Grammar Set";
+
+saveGrammarBtn.addEventListener("click", () => {
+  const key = "deutschraumSavedLibrary";
+  const library = loadJSON(key, []);
+
+  const item = {
+    id: crypto.randomUUID(),
+    kind: "grammar",
+    title: content.topic || topic,
+    topic,
+    level: content.level,
+    questions: content.questions,
+    savedAt: new Date().toISOString()
+  };
+
+  const duplicate = library.some(
+    entry => entry.kind === "grammar" &&
+      JSON.stringify(entry.questions) === JSON.stringify(item.questions)
+  );
+
+  if (duplicate) {
+    status.textContent = "This grammar set is already saved!";
+    return;
+  }
+
+  library.push(item);
+  saveJSON(key, library);
+
+  saveGrammarBtn.textContent = "✓ Saved!";
+  status.textContent = "Grammar set saved to your library!";
+});
+
+preview.appendChild(saveGrammarBtn);
+
+
+      content.questions.forEach((q, index) => {
+        const card = document.createElement("div");
+        card.className = "generated-question";
+
+        const heading = document.createElement("h4");
+        heading.textContent = `${index + 1}. ${q.question}`;
+        card.appendChild(heading);
+
+        q.options.forEach((option, optionIndex) => {
+          const label = document.createElement("label");
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `gen-q-${index}`;
+          radio.value = optionIndex;
+
+          label.appendChild(radio);
+          label.appendChild(document.createTextNode(" " + option));
+          card.appendChild(label);
+          card.appendChild(document.createElement("br"));
+        });
+
+        const check = document.createElement("button");
+        check.textContent = "Check answer";
+        check.addEventListener("click", () => {
+          const selected = card.querySelector(
+            `input[name="gen-q-${index}"]:checked`
+          );
+
+          let result = card.querySelector(".gen-answer-result");
+          if (!result) {
+            result = document.createElement("p");
+            result.className = "gen-answer-result";
+            card.appendChild(result);
+          }
+
+          if (!selected) {
+            result.textContent = "Choose an answer first.";
+            return;
+          }
+
+          result.textContent =
+            (Number(selected.value) === q.answer
+              ? "Correct! "
+              : `Not quite. Correct answer: ${q.options[q.answer]}. `) +
+            q.explanation;
+        });
+
+        card.appendChild(check);
+        preview.appendChild(card);
+      });
+    }
+
+    status.textContent = "Content generated successfully!";
+  } catch (error) {
+    status.textContent = "Error: " + error.message;
+  } finally {
+    genCreateBtn.disabled = false;
+  }
+});
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+
+function renderSavedLibrary() {
+  const container = document.getElementById("saved-stories-list");
+  const filter = document.getElementById("saved-filter");
+  const library = loadJSON("deutschraumSavedLibrary", []);
+
+  // Import stories saved by the older version.
+  const oldStories = loadJSON("deutschraumSavedStories", []);
+  oldStories.forEach(story => {
+    if (!library.some(item =>
+      item.kind === "story" && item.text === story.text
+    )) {
+      library.push({
+        ...story,
+        id: crypto.randomUUID(),
+        kind: "story"
+      });
+    }
+  });
+
+  saveJSON("deutschraumSavedLibrary", library);
+  container.replaceChildren();
+
+  const visible = library
+    .map((item, index) => ({ item, index }))
+    .filter(({ item }) =>
+      filter.value === "all" || item.kind === filter.value
+    );
+
+  if (!visible.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty";
+    empty.textContent = "Nothing saved here yet. Generate a story or grammar set and save it!";
+    container.appendChild(empty);
+    return;
+  }
+
+  visible.forEach(({ item, index }) => {
+    const card = document.createElement("article");
+    card.className = item.kind === "story"
+      ? "generated-story"
+      : "generated-question";
+
+    const title = document.createElement("h3");
+    title.textContent = item.title || "Saved German practice";
+    card.appendChild(title);
+
+    const meta = document.createElement("p");
+    meta.className = "muted";
+    meta.textContent =
+      `${item.kind === "story" ? "📖 Story" : "✍ Grammar"} · ${item.level || ""}`;
+    card.appendChild(meta);
+
+    const content = document.createElement("div");
+    content.hidden = true;
+
+    if (item.kind === "story") {
+      const germanHeading = document.createElement("h4");
+      germanHeading.textContent = "🇩🇪 German";
+      content.appendChild(germanHeading);
+
+      const german = document.createElement("p");
+      german.textContent = item.text || "";
+      content.appendChild(german);
+
+      const englishHeading = document.createElement("h4");
+      englishHeading.textContent = "🇬🇧 English Translation";
+      content.appendChild(englishHeading);
+
+      const english = document.createElement("p");
+      english.textContent = item.translation || "";
+      content.appendChild(english);
+
+      const vocabHeading = document.createElement("h4");
+      vocabHeading.textContent = "📚 Vocabulary";
+      content.appendChild(vocabHeading);
+
+      (item.vocabulary || []).forEach(word => {
+        const line = document.createElement("p");
+        line.textContent =
+          `${word.word} — ${word.meaning}. ${word.example || ""}`;
+        content.appendChild(line);
+      });
+    } else {
+      (item.questions || []).forEach((q, qIndex) => {
+        const question = document.createElement("div");
+        question.className = "generated-question";
+
+        const heading = document.createElement("h4");
+        heading.textContent = `${qIndex + 1}. ${q.question}`;
+        question.appendChild(heading);
+
+        const groupName = `saved-${index}-${qIndex}`;
+
+        (q.options || []).forEach((option, optionIndex) => {
+          const label = document.createElement("label");
+          label.style.display = "block";
+
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = groupName;
+          radio.value = optionIndex;
+
+          label.append(radio, document.createTextNode(" " + option));
+          question.appendChild(label);
+        });
+
+        const check = document.createElement("button");
+        check.textContent = "Check answer";
+
+        check.addEventListener("click", () => {
+          const selected = question.querySelector(
+            `input[name="${groupName}"]:checked`
+          );
+
+          let result = question.querySelector(".gen-answer-result");
+
+          if (!result) {
+            result = document.createElement("p");
+            result.className = "gen-answer-result";
+            question.appendChild(result);
+          }
+
+          if (!selected) {
+            result.textContent = "Choose an answer first.";
+            return;
+          }
+
+          result.textContent =
+            (Number(selected.value) === q.answer
+              ? "Correct! "
+              : `Not quite. Correct answer: ${q.options[q.answer]}. `) +
+            (q.explanation || "");
+        });
+
+        question.appendChild(check);
+        content.appendChild(question);
+      });
+    }
+
+    const actions = document.createElement("div");
+    actions.className = "story-actions";
+
+    const open = document.createElement("button");
+    open.textContent = "📖 Open";
+
+    open.addEventListener("click", () => {
+      content.hidden = !content.hidden;
+      open.textContent = content.hidden ? "📖 Open" : "📕 Close";
+    });
+
+    const remove = document.createElement("button");
+    remove.textContent = "🗑 Delete";
+
+    remove.addEventListener("click", () => {
+      const current = loadJSON("deutschraumSavedLibrary", []);
+      current.splice(
+  current.findIndex(entry => entry.id === item.id),
+  1
+);
+      saveJSON("deutschraumSavedLibrary", current);
+
+      // Also remove a legacy story if applicable.
+      if (item.kind === "story") {
+        const older = loadJSON("deutschraumSavedStories", [])
+          .filter(story => story.text !== item.text);
+        saveJSON("deutschraumSavedStories", older);
+      }
+
+      renderSavedLibrary();
+    });
+
+    actions.append(open, remove);
+    card.append(actions, content);
+    container.appendChild(card);
+  });
+}
+
+document.getElementById("saved-filter").addEventListener(
+  "change",
+  renderSavedLibrary
+);
+
+// Extend the existing showView without replacing its navigation behaviour.
+const originalShowView = showView;
+
+showView = function(name) {
+  originalShowView(name);
+
+  if (name === "saved") {
+    renderSavedLibrary();
+  }
+};
+
+
+</script>
+</body>
+</html>
